@@ -36,19 +36,31 @@ export function allowMethods(
 
 /** תרגום שגיאה לתשובה, בלי לדלוף פרטי תשתית ללקוח.
  *
- *  הטקסט המלא נכתב ללוג של Vercel — שם הוא שימושי לאבחון — והלקוח
- *  מקבל משפט אחד שמסביר מה לעשות עכשיו. יוצא דופן: תקלות הרשאה מול
- *  גוגל, שהן תמיד טעות הגדרה של בעל העסק, ולכן ההודעה שלהן מועברת
- *  כמות שהיא כדי שלא יחפש באפלה. */
+ *  הטקסט המלא נכתב תמיד ללוג — שם הוא שימושי לאבחון — והלקוח מקבל
+ *  משפט אחד שמסביר מה לעשות עכשיו.
+ *
+ *  היוצא מן הכלל הוא **תקלות הגדרה**: הרשאה, יומן שלא נמצא, ומשתני
+ *  סביבה חסרים. אלו לעולם לא תקלות של הלקוח אלא של מי שהתקין את
+ *  המערכת, והן נכשלות באופן עקבי ולא חולף. לכן ההודעה שלהן מועברת
+ *  כמות שהיא ומסומנת 503 — אחרת תקלת הגדרה נראית בדפדפן כמו 502
+ *  אנונימי, ומי שמתקין מחפש באפלה. */
 export function failFromError(res: VercelResponse, error: unknown): void {
   const detail = error instanceof Error ? error.message : String(error);
   console.error('[appointments]', detail);
 
-  if (error instanceof CalendarError && (error.status === 401 || error.status === 403)) {
-    fail(res, 503, 'calendar_auth', detail);
-    return;
+  if (error instanceof CalendarError) {
+    if (error.status === 401 || error.status === 403) {
+      fail(res, 503, 'calendar_auth', detail);
+      return;
+    }
+    if (error.status === 404) {
+      // כמעט תמיד CALENDAR_ID שגוי, או יומן שלא שותף עם חשבון השירות
+      // — גוגל מחזירה "לא נמצא" גם כשאין גישה כלל.
+      fail(res, 503, 'calendar_not_found', detail);
+      return;
+    }
   }
-  if (/משתנה הסביבה|חשבון השירות/.test(detail)) {
+  if (/משתנה הסביבה|חשבון השירות|Base64/.test(detail)) {
     fail(res, 503, 'config', detail);
     return;
   }
@@ -57,6 +69,9 @@ export function failFromError(res: VercelResponse, error: unknown): void {
     502,
     'upstream',
     'לא הצלחנו לדבר עם היומן כרגע. נסה שוב בעוד רגע, או פנה אלינו בוואטסאפ.',
+    // מזהה הבקשה של Vercel, כדי שאפשר יהיה לאתר את השורה בלוג.
+    // אין כאן שום פרט על התקלה עצמה, רק מצביע אליה.
+    { requestId: process.env.VERCEL_REQUEST_ID ?? undefined },
   );
 }
 

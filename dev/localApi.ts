@@ -18,6 +18,7 @@ const ROUTES: Record<string, string> = {
   '/api/slots': '/api/slots.ts',
   '/api/book': '/api/book.ts',
   '/api/cancel': '/api/cancel.ts',
+  '/api/health': '/api/health.ts',
 };
 
 function shimRequest(req: IncomingMessage, body: unknown, url: URL) {
