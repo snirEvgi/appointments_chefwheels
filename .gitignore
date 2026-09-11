@@ -1,0 +1,31 @@
+# תלויות
+node_modules/
+
+# תוצרי בנייה
+dist/
+dist-ssr/
+*.local
+
+# לוגים
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# עורכים ומערכת הפעלה
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# TypeScript
+*.tsbuildinfo
+
+# סביבה — מכיל מפתחות, לא נכנס לגיט
+.env
+.env.local
+.env.*.local

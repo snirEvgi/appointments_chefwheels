@@ -1,0 +1,125 @@
+@import 'tailwindcss';
+
+/* ── מערכת העיצוב ─────────────────────────────────────────────
+   הפלטה נגזרת מהלוגו של Chefs Wheels: שחור עמוק עם זהב חם. */
+@theme {
+  --font-sans: 'Heebo Variable', 'Heebo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-ink-950: #0a0a0b;
+  --color-ink-900: #121214;
+  --color-ink-800: #1c1c20;
+  --color-ink-700: #2a2a30;
+  --color-ink-600: #3d3d45;
+  --color-ink-400: #8b8b96;
+  --color-ink-300: #b9b9c2;
+  --color-ink-200: #d9d9e0;
+  --color-ink-100: #eeeef2;
+  --color-ink-50: #f7f7f9;
+
+  --color-gold-600: #b8860b;
+  --color-gold-500: #e9b824;
+  --color-gold-400: #f2ca4c;
+  --color-gold-300: #f7dd85;
+  --color-gold-100: #fdf3d6;
+  --color-gold-50: #fffaec;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ink-50);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* התנהגות של אפליקציה: בלי הבזק כחול בלחיצה ובלי גרירת-רענון */
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+/* ── מרווחי בטיחות (notch / סרגל מחוות) ─────────────────────── */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* iOS מזמזם את הדף כשמתמקדים בשדה עם גופן קטן מ-16px.
+   במובייל כל שדות הקלט נשארים 16px; מ-md ומעלה חוזרים לטיפוגרפיה הצפופה. */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* יעדי מגע נוחים במובייל */
+@media (pointer: coarse) {
+  button,
+  [role='button'],
+  select {
+    min-height: 40px;
+  }
+}
+
+/* מספרים ומחירים תמיד LTR, גם בתוך משפט עברי. */
+.num {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+
+/* פס גלילה עדין */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-300) transparent;
+}
+
+/* אנימציית כניסה קצרה לפאנלים */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fade-up 0.18s ease-out;
+}
+
+/* המסך היחיד בדף הזה נכנס בהדרגה — שלב אחרי שלב, בלי קפיצה. */
+.fade-in {
+  animation: fade-up 0.22s ease-out;
+}
+
+/* טעינה: פס אפור שפועם במקום שבו יופיע התוכן. עדיף על ספינר, כי הוא
+   מראה מראש כמה מקום התוכן יתפוס והמעבר אינו קופץ. */
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.shimmer {
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .fade-in,
+  .shimmer {
+    animation: none;
+  }
+}

@@ -1,0 +1,29 @@
+{
+  /* פרויקט TypeScript נפרד לקוד השרת.
+   *
+   * מכוון שאין כאן DOM: window / localStorage / document הם שגיאת טיפוס
+   * בקוד שרת, וזו בדיוק ההגנה שרוצים. באותו אופן, tsconfig.json של
+   * הדפדפן לא מכיל types: ["node"], כך ש-process.env נשאר שגיאה שם.
+   *
+   * הקובץ הזה נבדק ב-`npm run build` דרך `tsc -p api/tsconfig.json`.
+   * בלעדיו tsc -b היה מתעלם מהתיקייה בשקט, ושגיאת טיפוס בשרת הייתה
+   * מתגלה רק כפריסת ייצור שנכשלת. */
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true
+  },
+  "include": ["./**/*.ts"]
+}
