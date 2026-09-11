@@ -1,8 +1,11 @@
-import { Phone } from 'lucide-react';
-import { BUSINESS_NAME, BUSINESS_PHONE_DISPLAY, BUSINESS_TAGLINE, telUrl } from '../config';
+import { BUSINESS_NAME, BUSINESS_TAGLINE } from '../config';
 
-/** הפס העליון — אותו שחור וזהב של המותג, ועם דרך להתקשר מכל מסך.
- *  הטלפון גלוי בכוונה: לקוח שנתקע עם הטופס צריך מוצא מיידי. */
+/** הפס העליון — הלוגו והשם, בשחור והזהב של המותג.
+ *
+ *  מספר הטלפון אינו מוצג כאן במכוון. הדף פתוח לכל מי שמחזיק בקישור,
+ *  ומספר גלוי בראש כל מסך הוא בדיוק מה שסורקים אוטומטיים אוספים.
+ *  הדרך ליצור קשר נשארת בכפתורי הוואטסאפ, בנקודות שבהן הלקוח באמת
+ *  צריך אותה. */
 export function Header() {
   return (
     <header className="safe-top border-b border-ink-800 bg-ink-950">
@@ -20,13 +23,9 @@ export function Header() {
           </p>
           <p className="truncate text-[11px] leading-tight text-ink-400">{BUSINESS_TAGLINE}</p>
         </div>
-        <a
-          href={telUrl}
-          className="flex items-center gap-1.5 rounded-lg border border-ink-800 px-3 py-2 text-xs font-semibold text-ink-300 transition-colors hover:border-ink-700 hover:text-white"
-        >
-          <Phone size={14} aria-hidden="true" />
-          <span className="num">{BUSINESS_PHONE_DISPLAY}</span>
-        </a>
+        <span className="shrink-0 rounded-lg border border-ink-800 px-3 py-1.5 text-[11px] font-semibold text-ink-400">
+          קביעת פגישה
+        </span>
       </div>
     </header>
   );

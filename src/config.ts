@@ -3,9 +3,13 @@
  * הכול כאן ציבורי במפורש — הקובץ נארז לתוך ה-bundle ונשלח לדפדפן.
  * סודות חיים רק ב-api/, ולא עוברים דרך כאן לעולם. */
 
-/** E.164 בלי + — הפורמט ש-wa.me דורש. */
+/** E.164 בלי + — הפורמט ש-wa.me דורש.
+ *
+ *  ⚠️ המספר אינו מוצג בשום מקום בדף, אבל הוא כן מופיע בתוך קישורי
+ *  ה-wa.me. זה בלתי נמנע: קישור וואטסאפ *הוא* המספר. מי שיפתח את קוד
+ *  המקור של הדף יראה אותו. הגנה אמיתית יותר תדרוש לוותר על כפתורי
+ *  הוואטסאפ, ולהשאיר ללקוח רק את הטופס. */
 export const BUSINESS_PHONE_E164 = '972508313777';
-export const BUSINESS_PHONE_DISPLAY = '050-8313777';
 export const BUSINESS_NAME = 'Chefs Wheels';
 export const BUSINESS_TAGLINE = 'פודטראקים וציוד מטבח מקצועי';
 
@@ -30,8 +34,6 @@ export function whatsappUrl(message?: string): string {
   const base = `https://wa.me/${BUSINESS_PHONE_E164}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
-
-export const telUrl = `tel:+${BUSINESS_PHONE_E164}`;
 
 /** משך הפגישה כפי שמוצג ללקוח. השרת הוא הקובע בפועל ומחזיר את הערך
  *  האמיתי ב-/api/slots; זו רק ברירת מחדל עד שהתשובה מגיעה. */
